@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#a92f3b">
+<title>KavyAura — Where Every Emotion Finds Its Words</title>
+<style>
+:root{--ink:#4b1f22;--muted:#805e58;--accent:#a92f3b;--paper:#fffaf0;--line:#efd8c9}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--ink);background:linear-gradient(135deg,#fff8ed,#fff1df 55%,#fffaf2);min-height:100vh}
+header{padding:22px 5%;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-weight:900;font-size:1.55rem;letter-spacing:-.04em}.logo span{color:var(--accent)}
+.pill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 13px;color:var(--muted);font-size:.82rem}
+main{max-width:1120px;margin:auto;padding:10px 5% 48px}
+.hero{text-align:center;padding:36px 10px 28px}.eyebrow{color:var(--accent);font-weight:800;letter-spacing:.12em;text-transform:uppercase;font-size:.75rem}
+h1{font-size:clamp(2.2rem,7vw,4.3rem);line-height:1.02;letter-spacing:-.06em;margin:12px 0}
+.hero p{color:var(--muted);max-width:620px;margin:0 auto 20px;line-height:1.65}
+.btn{border:0;border-radius:14px;padding:12px 16px;font-weight:800;cursor:pointer;font-size:.95rem;background:var(--accent);color:white;box-shadow:0 7px 18px #a92f3b26}
+.btn.secondary{background:#fff;color:var(--ink);border:1px solid var(--line);box-shadow:none}.btn:active{transform:scale(.98)}
+.layout{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.panel{background:#ffffffd9;border:1px solid var(--line);border-radius:24px;padding:20px;box-shadow:0 12px 36px #53326b0c}
+.panel h2{font-size:1.12rem;margin:0 0 6px}.sub{font-size:.88rem;color:var(--muted);margin:0 0 16px}
+label{display:block;font-size:.83rem;font-weight:800;margin:13px 0 7px}
+input,select,textarea{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff;color:var(--ink);font:inherit;outline-color:var(--accent)}
+textarea{min-height:130px;resize:vertical;line-height:1.6}
+.themes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}.theme{border:1px solid var(--line);border-radius:13px;background:#fff;padding:10px 6px;cursor:pointer;font-size:.82rem;font-weight:750}.theme.active{border:2px solid var(--accent);background:#fff0e5}
+.swatches{display:flex;gap:8px;flex-wrap:wrap}.swatch{width:30px;height:30px;border-radius:50%;border:2px solid white;box-shadow:0 0 0 1px #ddd;cursor:pointer}
+.preview-wrap{position:sticky;top:12px}.preview{min-height:380px;border-radius:22px;padding:28px 22px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;white-space:pre-wrap;overflow-wrap:anywhere;transition:.2s;background:linear-gradient(145deg,#fff0e3,#ffe1d2);border:1px solid #efd8c9}
+.preview .mini{font-size:.76rem;letter-spacing:.16em;text-transform:uppercase;opacity:.75}.preview h3{font-family:Georgia,serif;font-size:1.7rem;margin:14px 0}.poem{font-family:Georgia,serif;line-height:1.8;font-size:1.08rem;max-width:100%}.decor{font-size:1.5rem;margin:10px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.actions .btn{flex:1;min-width:120px}
+.examples{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:18px}.example{padding:15px;border-radius:16px;background:#fff;border:1px solid var(--line);cursor:pointer;text-align:left}.example strong{display:block;margin-bottom:5px}.example span{font-size:.82rem;color:var(--muted)}
+footer{text-align:center;padding:24px 12px;color:var(--muted);font-size:.82rem}
+.note{font-size:.78rem;color:var(--muted);line-height:1.5;margin-top:10px}
+
+.poem-library{margin:14px 0 30px;padding:26px 20px;background:#fffaf2;border:1px solid var(--line);border-radius:28px;box-shadow:0 14px 38px #6c2d2310}
+.library-heading{text-align:center;max-width:720px;margin:0 auto 22px}
+.library-heading h2{font-family:Georgia,serif;font-size:clamp(1.65rem,4vw,2.5rem);margin:10px 0;color:var(--ink)}
+.library-heading p{color:var(--muted);line-height:1.7;margin:0 auto 16px}
+.library-filters{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:16px}
+.filter-btn{border:1px solid var(--line);background:white;color:var(--ink);padding:9px 15px;border-radius:999px;font-weight:800;cursor:pointer}
+.filter-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.poem-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.poem-choice{display:flex;flex-direction:column;min-width:0;padding:17px;border:1px solid var(--line);border-radius:19px;background:linear-gradient(155deg,#fff,#fff4e8);text-align:left;transition:transform .18s,box-shadow .18s}
+.poem-choice:hover{transform:translateY(-3px);box-shadow:0 10px 24px #6c2d2312}
+.poem-choice .poem-emoji{font-size:1.6rem;margin-bottom:8px}
+.poem-choice h3{font-family:Georgia,serif;margin:0 0 8px;font-size:1.12rem;color:var(--ink)}
+.poem-choice .poem-language{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;font-weight:900;color:var(--accent);margin-bottom:9px}
+.poem-choice p{white-space:pre-line;line-height:1.65;color:#6c4a45;font-family:Georgia,serif;font-size:.92rem;margin:0 0 15px;flex:1}
+.poem-choice button{border:0;border-radius:12px;padding:10px 12px;background:var(--accent);color:white;font-weight:800;cursor:pointer}
+.library-tip{text-align:center;color:var(--muted);font-size:.86rem;line-height:1.6;margin:18px 0 0}
+@media(max-width:850px){.poem-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+@media(max-width:760px){.poem-grid{grid-template-columns:1fr}.poem-library{padding:20px 13px}.layout{grid-template-columns:1fr}.preview-wrap{position:static}.examples{grid-template-columns:1fr}.hero{padding-top:20px}.panel{padding:16px}.preview{min-height:340px}}
+
+#savedPoemList .saved-item{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px}
+#savedPoemList .saved-item h3{margin:0 0 6px;font-size:1rem}
+#savedPoemList .saved-item p{margin:0 0 10px;color:var(--muted);white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.5}
+#savedPoemList .saved-actions{display:flex;gap:8px;flex-wrap:wrap}
+#savedPoemList .saved-actions button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:8px 11px;cursor:pointer;font-weight:700;color:var(--ink)}
+
+
+#instagramNotice{display:none;margin:10px auto 0;max-width:1050px;padding:16px 18px;border:1px solid #e7b8ad;border-radius:18px;background:#fff0e8;color:#4b1f22;box-shadow:0 8px 24px #a92f3b12}
+#instagramNotice .notice-title{font-weight:900;font-size:1.05rem;margin-bottom:6px}
+#instagramNotice p{margin:6px 0;line-height:1.55}
+#instagramNotice .notice-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+#instagramNotice .notice-actions a,#instagramNotice .notice-actions button{display:inline-block;border:0;border-radius:12px;padding:11px 14px;font:inherit;font-weight:800;text-decoration:none;cursor:pointer}
+#instagramNotice .open-chrome{background:#a92f3b;color:white}
+#instagramNotice .copy-link{background:white;color:#4b1f22;border:1px solid #efd8c9!important}
+#instagramNotice .notice-small{font-size:.82rem;color:#805e58}
+
+</style>
+</head>
+<body>
+
+<section id="instagramNotice" aria-live="polite">
+ <div class="notice-title" id="igNoticeTitle">💗 Welcome to KavyAura!</div>
+ <p id="igNoticeText">You opened KavyAura in Instagram. For the best download experience, open this website in Chrome.</p>
+ <p class="notice-small" id="igNoticeHelp">Tap “Open in Chrome”. If it does not work, copy the link and paste it into Chrome.</p>
+ <div class="notice-actions">
+  <a class="open-chrome" id="igOpenChrome" href="intent://incandescent-stardust-f3207d.netlify.app/#Intent;scheme=https;package=com.android.chrome;end">🌐 Open in Chrome</a>
+  <button class="copy-link" id="igCopyLink" type="button">🔗 Copy link</button>
+ </div>
+</section>
+
+<header><div class="logo">Kavy<span>Aura</span> ✨</div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><button class="btn secondary" id="langEnglish" type="button">English</button><button class="btn" id="langMarathi" type="button">मराठी</button><div class="pill" id="tagline">A little studio for big feelings</div></div></header>
+<main>
+<section class="hero">
+<div class="eyebrow">Your words, your world</div>
+<h1>Where every emotion<br><span style="color:var(--accent)">finds its words.</span></h1>
+<p>Create a poem, choose your mood, and turn your feelings into a beautiful little keepsake. Made for friendship, family, celebrations and every feeling in between.</p>
+<button class="btn" onclick="document.getElementById('writer').scrollIntoView({behavior:'smooth'})">Create your poem ↓</button>
+</section>
+
+<section class="poem-library" id="poemLibrary">
+  <div class="library-heading">
+    <span class="eyebrow" id="libraryEyebrow">✨ Choose a poem</span>
+    <h2 id="libraryHeading">Your words, your feelings ❤️</h2>
+    <p id="librarySub">Choose a Marathi or English poem, then customize its colors and design.</p>
+    <div class="library-filters">
+      <button class="filter-btn active" data-filter="all" type="button" id="filterAll">All poems</button>
+      <button class="filter-btn" data-filter="mr" type="button" id="filterMr">मराठी</button>
+      <button class="filter-btn" data-filter="en" type="button" id="filterEn">English</button>
+    </div>
+  </div>
+  <div class="poem-grid" id="poemGrid"></div>
+  <p class="library-tip">💌 एखाद्या कवितेवर “ही कविता डिझाइन करा” दाबा. ती खालील स्टुडिओमध्ये उघडेल आणि तुम्ही हवी तशी बदलू शकाल.</p>
+</section>
+
+<div class="layout" id="writer">
+<section class="panel">
+<h2>✨ Poetry Studio</h2><p class="sub">Write your own lines and make them yours.</p>
+<label for="title">Poem title</label><input id="title" maxlength="70" value="A Little Piece of My Heart" placeholder="Give your poem a title">
+<label for="to">Made for (optional)</label><input id="to" maxlength="50" placeholder="e.g. Best friend, Aai, Baba">
+<label>Choose a theme</label>
+<div class="themes">
+<button class="theme active" data-theme="dreamy">🦋 Dreamy</button><button class="theme" data-theme="luxury">👑 Luxury</button><button class="theme" data-theme="cute">🌷 Cute</button>
+<button class="theme" data-theme="romantic">🌹 Romantic</button><button class="theme" data-theme="ocean">🌊 Ocean</button><button class="theme" data-theme="nature">🌿 Nature</button>
+</div>
+<label for="poem">Your poem</label><textarea id="poem" maxlength="1200">Some feelings bloom without a sound,
+Like little stars that I have found.
+A few kind words, a moment true,
+Can make the greyest skies turn blue.</textarea>
+<label>Choose a colour mood</label>
+<div class="swatches">
+<button class="swatch" title="Lavender" style="background:#d9c5ff" data-color="lavender"></button>
+<button class="swatch" title="Rose" style="background:#ffc5d8" data-color="rose"></button>
+<button class="swatch" title="Ocean" style="background:#b9e8f4" data-color="ocean"></button>
+<button class="swatch" title="Sunshine" style="background:#ffe7a3" data-color="sunshine"></button>
+<button class="swatch" title="Mint" style="background:#c9f0dc" data-color="mint"></button>
+<button class="swatch" title="Midnight" style="background:#34304e" data-color="midnight"></button>
+</div>
+<div class="actions"><button class="btn" id="update">Update preview</button><button class="btn secondary" id="sample">Try a sample</button></div>
+<p class="note">Tip: use line breaks to shape your poem. This first version works in your browser; it does not send your writing to a server.</p>
+</section>
+<section class="panel preview-wrap">
+<h2>🖼️ Your design</h2><p class="sub">A live preview of your poetry card.</p>
+<div class="preview" id="preview">
+<div class="mini">KavyAura • Made with feeling</div><div class="decor">✦ ❀ ✦</div><h3 id="previewTitle">A Little Piece of My Heart</h3><div id="previewTo" class="mini"></div><div class="poem" id="previewPoem"></div><div class="decor">♡ ✧ ♡</div>
+</div>
+<div class="actions"><button class="btn" id="download">Download card</button><button class="btn secondary" id="copy">Copy poem</button></div>
+<p class="note">Download creates a PNG image of your poem card. For best results, open this page in a modern browser.</p>
+</section>
+</div>
+<section style="margin-top:30px"><h2 style="text-align:center">A few places to begin 💌</h2><p class="sub" style="text-align:center">Tap an idea to start writing.</p>
+<div class="examples">
+<button class="example" data-sample="friend"><strong>💙 For a best friend</strong><span>Little memories, big laughs, always there.</span></button>
+<button class="example" data-sample="family"><strong>🌼 For family</strong><span>Home is the warmth we carry with us.</span></button>
+<button class="example" data-sample="birthday"><strong>🎂 Birthday wishes</strong><span>A new chapter filled with bright moments.</span></button>
+</div></section>
+
+<section class="panel" id="collectionPanel" style="margin-top:22px">
+  <h2 id="collectionHeading">📚 My Poem Collection</h2>
+  <p class="sub" id="collectionSub">Add your own Marathi or English poems and keep them in this browser.</p>
+  <label for="savedTitle" id="savedTitleLabel">Poem title</label>
+  <input id="savedTitle" maxlength="70" placeholder="e.g. माझी आई">
+  <label for="savedLanguage" id="savedLanguageLabel">Poem language</label>
+  <select id="savedLanguage"><option value="mr">मराठी</option><option value="en">English</option></select>
+  <label for="savedPoem" id="savedPoemLabel">Write or paste your poem</label>
+  <textarea id="savedPoem" maxlength="3000" placeholder="इथे तुमची कविता लिहा..."></textarea>
+  <div class="actions">
+    <button class="btn" id="savePoem" type="button">Save poem</button>
+    <button class="btn secondary" id="exportPoems" type="button">Download collection</button>
+  </div>
+  <p class="note" id="collectionNote">Saved poems stay in this browser on this device. They are not automatically published for every website visitor. Download your collection as a backup.</p>
+  <div id="savedPoemList" style="display:grid;gap:10px;margin-top:14px"></div>
+</section>
+
+
+<section class="panel" id="publicPoems" style="margin-top:22px">
+  <h2 id="publicPoemsHeading">🌺 Marathi Poem Collection</h2>
+  <p class="sub" id="publicPoemsSub">Read, enjoy, and share your own lines too.</p>
+  <div class="examples" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr))">
+    <article class="example" style="cursor:default"><strong>🌅 नव्या पहाटेची आशा</strong><span>नवी पहाट, नवी स्वप्ने घेऊन येते,<br>मनातली आशा पुन्हा उमलून देते.<br>एक पाऊल धैर्याने पुढे टाकूया,<br>आपल्या स्वप्नांना आकाश देऊया.</span></article>
+    <article class="example" style="cursor:default"><strong>🌧️ पावसाच्या सरी</strong><span>रिमझिम सरींचा गोड गंध,<br>मातीशी जुळतो मनाचा छंद.<br>थेंबांत दडलेली आनंदाची गाणी,<br>हसरी होते धरतीराणी.</span></article>
+    <article class="example" style="cursor:default"><strong>💖 आई</strong><span>आईच्या मायेची ऊब निराळी,<br>तिच्या शब्दांत शक्ती सगळी.<br>तिच्या हसण्यात माझे आभाळ,<br>तिच्या प्रेमाने जीवन खुशाल.</span></article>
+  </div>
+</section>
+<section class="panel" id="submitPoem" style="margin-top:22px">
+  <h2 id="submitPoemHeading">✍️ Submit your poem for review</h2>
+  <p class="sub" id="submitPoemSub">Your submission will be sent to the website owner for review. It will be added to the public collection only after approval.</p>
+  <form name="poem-submissions" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+    <input type="hidden" name="form-name" value="poem-submissions">
+    <p style="display:none"><label>हे रिकामे ठेवा: <input name="bot-field"></label></p>
+    <label for="submitterName">तुमचे नाव (ऐच्छिक)</label>
+    <input id="submitterName" name="name" maxlength="60" placeholder="तुमचे नाव किंवा टोपणनाव">
+    <label for="submissionTitle">कवितेचे शीर्षक</label>
+    <input id="submissionTitle" name="title" maxlength="100" required placeholder="उदा. माझी शाळा">
+    <label for="submissionLanguage">कवितेची भाषा</label>
+    <select id="submissionLanguage" name="language"><option value="मराठी">मराठी</option><option value="English">English</option></select>
+    <label for="submissionPoem">तुमची कविता</label>
+    <textarea id="submissionPoem" name="poem" maxlength="5000" required placeholder="तुमची कविता येथे लिहा..."></textarea>
+    <label style="display:flex;gap:8px;align-items:flex-start;font-weight:500"><input type="checkbox" name="permission" value="yes" required style="width:auto;margin-top:4px"> ही कविता माझी आहे किंवा मला ती शेअर करण्याची परवानगी आहे. ती सार्वजनिक करण्यापूर्वी तपासली जाऊ शकते.</label>
+    <button class="btn" type="submit">कविता पाठवा</button>
+  </form>
+  <p class="note">टीप: Netlify वर ही फाइल deploy केल्यानंतर Forms सुविधा/फॉर्म ओळख तपासा. पाठवलेली कविता आपोआप सार्वजनिक होत नाही; मालकाने ती मंजूर करून वेबसाइटमध्ये जोडणे आवश्यक आहे.</p>
+</section>
+
+</main>
+<footer>© <span id="year"></span> KavyAura · Create kindly. Share joyfully. ✨<br>Prototype edition — premium and AI features are not enabled yet.</footer>
+<script>
+const themes={
+dreamy:{bg:'linear-gradient(145deg,#fff0f6,#f0e7ff)',ink:'#302044',decor:'🦋 ✦ ✧'},
+luxury:{bg:'linear-gradient(145deg,#27213b,#59446d)',ink:'#fff4d2',decor:'✦ ♛ ✦'},
+cute:{bg:'linear-gradient(145deg,#fff2df,#ffe0ec)',ink:'#733f5c',decor:'🌷 ♡ 🌷'},
+romantic:{bg:'linear-gradient(145deg,#ffe4eb,#ffd0d8)',ink:'#742a47',decor:'🌹 ♡ 🌹'},
+ocean:{bg:'linear-gradient(145deg,#d9f7ff,#d4e7ff)',ink:'#17445c',decor:'🌊 ✧ 🐚'},
+nature:{bg:'linear-gradient(145deg,#e6f8e9,#f8f3d6)',ink:'#2c553d',decor:'🌿 ✿ 🍃'}
+};
+const colors={lavender:['linear-gradient(145deg,#fff0f6,#f0e7ff)','#302044'],rose:['linear-gradient(145deg,#ffe4eb,#ffc5d8)','#742a47'],ocean:['linear-gradient(145deg,#d9f7ff,#b9e8f4)','#17445c'],sunshine:['linear-gradient(145deg,#fff8dc,#ffe7a3)','#694c19'],mint:['linear-gradient(145deg,#e6f8e9,#c9f0dc)','#2c553d'],midnight:['linear-gradient(145deg,#34304e,#51486f)','#fff4d2']};
+let currentTheme='dreamy',currentColor=null;
+const $=id=>document.getElementById(id);
+function render(){
+ $('previewTitle').textContent=$('title').value.trim()||'Untitled Poem';
+ const to=$('to').value.trim(); $('previewTo').textContent=to?'For '+to:'';
+ $('previewPoem').textContent=$('poem').value;
+ const p=$('preview'),t=themes[currentTheme];
+ p.style.background=currentColor?currentColor[0]:t.bg;p.style.color=currentColor?currentColor[1]:t.ink;
+ p.querySelectorAll('.decor').forEach((el,i)=>el.textContent=i===0?t.decor:'♡ ✧ ♡');
+}
+document.querySelectorAll('.theme').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.theme').forEach(x=>x.classList.remove('active'));b.classList.add('active');currentTheme=b.dataset.theme;currentColor=null;render()}));
+document.querySelectorAll('.swatch').forEach(b=>b.addEventListener('click',()=>{currentColor=colors[b.dataset.color];render()}));
+$('update').onclick=render;
+$('sample').onclick=()=>{ $('title').value='You Make Ordinary Days Shine';$('to').value='Someone special';$('poem').value='In little moments, joy can grow,\\nIn gentle words, the heart can glow.\\nA simple smile, a day made new,\\nThe world feels warmer thanks to you.';render()};
+document.querySelectorAll('[data-sample]').forEach(b=>b.onclick=()=>{const samples={
+friend:['A Friend Like You','My best friend','Through every laugh and every day,\\nYou help the clouds drift far away.\\nWith memories bright and kindness true,\\nLife feels more colourful with you.'],
+family:['My Place Called Home','My family','In every hug and every cheer,\\nA little home is always near.\\nThrough changing days, one thing stays true,\\nI find my strength in all of you.'],
+birthday:['A Brand-New Chapter','Birthday wishes','May bright new mornings find your way,\\nMay laughter fill your days with play.\\nMay dreams take flight and good things start,\\nWith joy and wonder in your heart.']};let s=samples[b.dataset.sample];$('title').value=s[0];$('to').value=s[1];$('poem').value=s[2];render();$('writer').scrollIntoView({behavior:'smooth'})});
+$('copy').onclick=async()=>{try{await navigator.clipboard.writeText(($('title').value+'\n\n'+$('poem').value));$('copy').textContent='Copied! ✓';setTimeout(()=>$('copy').textContent='Copy poem',1500)}catch(e){alert('Please select and copy the poem text manually.')}};
+$('download').onclick=()=>{
+ const title=$('title').value.trim()||'Untitled Poem',to=$('to').value.trim(),poem=$('poem').value;
+ const w=900,h=1000,canvas=document.createElement('canvas');canvas.width=w;canvas.height=h;
+ const ctx=canvas.getContext('2d');
+ if(!ctx){alert(uiLanguage==='mr'?'कार्ड तयार करता आले नाही. Chrome मध्ये पुन्हा प्रयत्न करा.':'Could not create card. Please try again in Chrome.');return;}
+ const t=themes[currentTheme],c=currentColor;
+ const palettes={
+  dreamy:['#fff0f6','#f0e7ff'],luxury:['#27213b','#59446d'],cute:['#fff2df','#ffe0ec'],
+  romantic:['#ffe4eb','#ffd0d8'],ocean:['#d9f7ff','#d4e7ff'],nature:['#e6f8e9','#f8f3d6']
+ };
+ const grad=ctx.createLinearGradient(0,0,w,h),pair=palettes[currentTheme]||palettes.dreamy;
+ grad.addColorStop(0,c?(currentTheme==='luxury'?'#34304e':pair[0]):pair[0]);
+ grad.addColorStop(1,c?(currentTheme==='luxury'?'#51486f':pair[1]):pair[1]);
+ ctx.fillStyle=grad;ctx.fillRect(0,0,w,h);ctx.fillStyle=c?c[1]:t.ink;ctx.textAlign='center';
+ ctx.font='24px sans-serif';ctx.fillText('KAVYAURA  •  MADE WITH FEELING',w/2,80);
+ ctx.font='40px sans-serif';ctx.fillText(t.decor,w/2,145);
+ ctx.font='bold 46px Georgia, serif';wrapText(ctx,title,w/2,225,760,58);
+ let y=315;if(to){ctx.font='22px sans-serif';ctx.fillText('For '+to,w/2,y);y+=65;}
+ ctx.font='30px Georgia, serif';
+ poem.split('\n').forEach(line=>{if(line.trim()===''){y+=22;return;}splitLine(ctx,line,760).forEach(ch=>{if(y<875){ctx.fillText(ch,w/2,y);y+=43;}});});
+ ctx.font='38px sans-serif';ctx.fillText('♡  ✧  ♡',w/2,930);
+ ctx.font='18px sans-serif';ctx.fillText('Where every emotion finds its words.',w/2,970);
+ try{
+  canvas.toBlob(blob=>{
+   if(!blob){alert(uiLanguage==='mr'?'डाउनलोड तयार झाले नाही. पुन्हा प्रयत्न करा.':'Could not create download. Please try again.');return;}
+   const url=URL.createObjectURL(blob),a=document.createElement('a');
+   a.href=url;a.download='KavyAura-poem.png';a.style.display='none';document.body.appendChild(a);
+   const inInstagram=/Instagram/i.test(navigator.userAgent);
+   if(inInstagram){
+    // Instagram's in-app browser may ignore file downloads. Show the PNG so it can be saved manually.
+    const old=document.getElementById('kavyaura-save-overlay');if(old)old.remove();
+    const overlay=document.createElement('div');overlay.id='kavyaura-save-overlay';
+    overlay.style.cssText='position:fixed;inset:0;z-index:99999;background:rgba(15,10,20,.97);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;overflow:auto;box-sizing:border-box;color:white;text-align:center;font-family:Arial,sans-serif;';
+    const heading=document.createElement('h2');heading.textContent=uiLanguage==='mr'?'तुमचे कविता कार्ड तयार आहे ❤️':'Your poem card is ready ❤️';heading.style.cssText='font-size:22px;margin:12px 0;';
+    const note=document.createElement('p');note.textContent=uiLanguage==='mr'?'चित्रावर बोट दाबून ठेवा आणि “Save image / Download image” निवडा.':'Press and hold the image, then choose “Save image” or “Download image”.';note.style.cssText='font-size:16px;line-height:1.5;margin:8px 0 16px;';
+    const img=document.createElement('img');img.src=url;img.alt='KavyAura poem card';img.style.cssText='display:block;max-width:100%;max-height:62vh;object-fit:contain;border-radius:10px;';
+    const saveLink=document.createElement('a');saveLink.href=url;saveLink.download='KavyAura-poem.png';saveLink.textContent=uiLanguage==='mr'?'पुन्हा डाउनलोड करून पाहा':'Try download again';saveLink.style.cssText='display:inline-block;background:#6b21c9;color:#fff;text-decoration:none;font-weight:bold;padding:13px 20px;border-radius:12px;margin:16px 0 8px;';
+    const close=document.createElement('button');close.type='button';close.textContent=uiLanguage==='mr'?'परत वेबसाइटवर जा':'Back to website';close.style.cssText='background:#444;color:#fff;border:0;padding:12px 18px;border-radius:10px;font-size:16px;margin-bottom:12px;';close.onclick=()=>{overlay.remove();URL.revokeObjectURL(url);};
+    overlay.append(heading,note,img,saveLink,close);document.body.appendChild(overlay);
+   }else{
+    a.click();
+    $('download').textContent=uiLanguage==='mr'?'डाउनलोड सुरू झाले ✓':'Download started ✓';
+    setTimeout(()=>{$('download').textContent=translations[uiLanguage].download;},2200);
+    setTimeout(()=>URL.revokeObjectURL(url),60000);
+   }
+   a.remove();
+  },'image/png');
+ }catch(e){alert(uiLanguage==='mr'?'डाउनलोडमध्ये अडचण आली. पेज Chrome मध्ये उघडून पुन्हा प्रयत्न करा.':'Download failed. Open the page in Chrome and try again.');}
+};
+function splitLine(ctx,line,max){let words=line.split(' '),out=[],cur='';for(const word of words){const test=cur?cur+' '+word:word;if(ctx.measureText(test).width>max&&cur){out.push(cur);cur=word}else cur=test}if(cur)out.push(cur);return out}
+function wrapText(ctx,text,x,y,max,lineH){let lines=splitLine(ctx,text,max);lines.forEach(line=>{ctx.fillText(line,x,y);y+=lineH});return y}
+$('year').textContent=new Date().getFullYear();render();
+
+// Language switch: updates the main interface labels; poem text stays exactly as entered.
+const translations = {
+  en: {
+    tagline:"A little studio for big feelings", eyebrow:"Your words, your world",
+    heroTitle:'Where every emotion<br><span style="color:var(--accent)">finds its words.</span>',
+    heroText:"Create a poem, choose your mood, and turn your feelings into a beautiful little keepsake. Made for friendship, family, celebrations and every feeling in between.",
+    create:"Create your poem ↓", studio:"✨ Poetry Studio", studioSub:"Write your own lines and make them yours.",
+    title:"Poem title", madeFor:"Made for (optional)", madeForPlaceholder:"e.g. Best friend, Aai, Baba",
+    theme:"Choose a theme", poem:"Your poem", color:"Choose a colour mood",
+    update:"Update preview", sample:"Try a sample", tip:"Tip: use line breaks to shape your poem. This first version works in your browser; it does not send your writing to a server.",
+    design:"🖼️ Your design", designSub:"A live preview of your poetry card.", download:"Download card", copy:"Copy poem",
+    downloadNote:"Download creates a PNG image of your poem card. For best results, open this page in a modern browser.",
+    ideas:"A few places to begin 💌", ideasSub:"Tap an idea to start writing.",
+    friend:"💙 For a best friend", friendSub:"Little memories, big laughs, always there.",
+    family:"🌼 For family", familySub:"Home is the warmth we carry with us.",
+    birthday:"🎂 Birthday wishes", birthdaySub:"A new chapter filled with bright moments.",
+    collection:"📚 My Poem Collection", collectionSub:"Add your own Marathi or English poems and keep them in this browser.",
+    savedTitle:"Poem title", savedLanguage:"Poem language", savedPoem:"Write or paste your poem",
+    save:"Save poem", export:"Download collection",
+    collectionNote:"Saved poems stay in this browser on this device. They are not automatically published for every website visitor. Download your collection as a backup.",
+    empty:"No saved poems yet. Add your first poem above.", use:"Use in studio", remove:"Delete",
+    saved:"Poem saved in this browser!", need:"Please enter a title and poem first.",
+    deleted:"Delete this poem?", exportEmpty:"There are no saved poems to download.",
+    footer:"Create kindly. Share joyfully. ✨<br>Prototype edition — premium and AI features are not enabled yet."
+  },
+  mr: {
+    tagline:"भावनांसाठी एक छोटीशी सुंदर जागा", eyebrow:"तुमचे शब्द, तुमचे जग",
+    heroTitle:'प्रत्येक भावनेला<br><span style="color:var(--accent)">मिळू देत सुंदर शब्द.</span>',
+    heroText:"तुमची कविता लिहा, आवडता रंग निवडा आणि तुमच्या भावना एका सुंदर आठवणीत जतन करा. मैत्री, कुटुंब, सण आणि प्रत्येक भावनेसाठी.",
+    create:"कविता तयार करा ↓", studio:"✨ कविता स्टुडिओ", studioSub:"तुमच्या ओळी लिहा आणि त्यांना तुमची खास ओळख द्या.",
+    title:"कवितेचे शीर्षक", madeFor:"कोणासाठी? (ऐच्छिक)", madeForPlaceholder:"उदा. मैत्रीण, आई, बाबा",
+    theme:"थीम निवडा", poem:"तुमची कविता", color:"आवडता रंग निवडा",
+    update:"Preview अपडेट करा", sample:"नमुना पाहा", tip:"सूचना: ओळी वेगळ्या दाखवण्यासाठी नवीन ओळ वापरा. तुमची कविता या ब्राउझरमध्येच तयार होते; ती सर्व्हरवर पाठवली जात नाही.",
+    design:"🖼️ तुमची कविता", designSub:"तुमच्या कविता कार्डचा थेट नमुना.", download:"कार्ड डाउनलोड करा", copy:"कविता कॉपी करा",
+    downloadNote:"या बटणाने तुमच्या कविता कार्डची PNG प्रत तयार होईल.",
+    ideas:"कविता सुरू करण्यासाठी काही कल्पना 💌", ideasSub:"लिहायला सुरुवात करण्यासाठी एखाद्या कल्पनेवर टॅप करा.",
+    friend:"💙 जिवलग मैत्रिणीसाठी", friendSub:"छोट्या आठवणी, मोठा हशा आणि कायमची साथ.",
+    family:"🌼 कुटुंबासाठी", familySub:"आपुलकीची ऊब म्हणजे आपलं घर.",
+    birthday:"🎂 वाढदिवसाच्या शुभेच्छा", birthdaySub:"नव्या वर्षाची सुरुवात आनंदाने होवो.",
+    collection:"📚 माझ्या कविता", collectionSub:"तुमच्या मराठी किंवा इंग्रजी कविता येथे लिहा आणि या ब्राउझरमध्ये जतन करा.",
+    savedTitle:"कवितेचे शीर्षक", savedLanguage:"कवितेची भाषा", savedPoem:"तुमची कविता लिहा किंवा येथे पेस्ट करा",
+    save:"कविता जतन करा", export:"कवितांचा संग्रह डाउनलोड करा",
+    collectionNote:"जतन केलेल्या कविता याच डिव्हाइसवरील या ब्राउझरमध्ये राहतात. त्या आपोआप सर्व वेबसाइट पाहणाऱ्यांना दिसत नाहीत. बॅकअपसाठी संग्रह डाउनलोड करा.",
+    empty:"अजून कविता जतन केलेल्या नाहीत. वर तुमची पहिली कविता जोडा.", use:"स्टुडिओमध्ये वापरा", remove:"हटवा",
+    saved:"कविता या ब्राउझरमध्ये जतन झाली!", need:"कृपया आधी कवितेचे शीर्षक आणि कविता लिहा.",
+    deleted:"ही कविता हटवायची आहे का?", exportEmpty:"डाउनलोड करण्यासाठी कविता नाहीत.",
+    footer:"प्रेमाने तयार करा. आनंदाने शेअर करा. ✨<br>ही प्राथमिक आवृत्ती आहे — प्रीमियम आणि AI सुविधा सुरू नाहीत."
+  }
+};
+let uiLanguage = "mr";
+function setLanguage(lang) {
+  uiLanguage = lang;
+  const t = translations[lang];
+  document.documentElement.lang = lang === "mr" ? "mr" : "en";
+  $("tagline").textContent = t.tagline;
+  $("igNoticeTitle").textContent = lang === "mr" ? "💗 KavyAura मध्ये स्वागत आहे!" : "💗 Welcome to KavyAura!";
+  $("igNoticeText").textContent = lang === "mr" ? "तुम्ही Instagram मधून KavyAura उघडले आहे. कविता डाउनलोड करण्यासाठी Chrome मध्ये उघडा." : "You opened KavyAura in Instagram. For the best download experience, open this website in Chrome.";
+  $("igNoticeHelp").textContent = lang === "mr" ? "‘Open in Chrome’ वर टॅप करा. ते काम न झाल्यास लिंक कॉपी करून Chrome मध्ये पेस्ट करा." : "Tap “Open in Chrome”. If it does not work, copy the link and paste it into Chrome.";
+  $("igCopyLink").textContent = lang === "mr" ? "🔗 लिंक कॉपी करा" : "🔗 Copy link";
+  $("libraryEyebrow").textContent = lang === "mr" ? "✨ कविता निवडा" : "✨ Choose a poem";
+  $("libraryHeading").textContent = lang === "mr" ? "शब्द तुमचे, भावना तुमच्या ❤️" : "Your words, your feelings ❤️";
+  $("librarySub").textContent = lang === "mr" ? "आवडती मराठी किंवा इंग्रजी कविता निवडा, मग तिचा रंग आणि डिझाइन ठरवा." : "Choose a Marathi or English poem, then customize its colors and design.";
+  $("filterAll").textContent = lang === "mr" ? "सर्व कविता" : "All poems";
+  $("filterMr").textContent = "मराठी"; $("filterEn").textContent = "English";
+  $("publicPoemsHeading").textContent = lang === "mr" ? "🌺 मराठी कवितांचा संग्रह" : "🌺 Marathi Poem Collection";
+  $("publicPoemsSub").textContent = lang === "mr" ? "वाचा, मनापासून अनुभवा आणि स्वतःच्या ओळीही पाठवा." : "Read, enjoy, and share your own lines too.";
+  $("submitPoemHeading").textContent = lang === "mr" ? "✍️ तुमची कविता प्रकाशित करण्यासाठी पाठवा" : "✍️ Submit your poem for review";
+  $("submitPoemSub").textContent = lang === "mr" ? "कविता वेबसाइटच्या मालकाकडे तपासणीसाठी जाईल. मंजूर झाल्यानंतरच ती सार्वजनिक संग्रहात जोडली जाईल." : "Your submission will be sent to the website owner for review and added to the public collection only after approval.";
+  document.querySelector(".eyebrow").textContent = t.eyebrow;
+  document.querySelector(".hero h1").innerHTML = t.heroTitle;
+  document.querySelector(".hero p").textContent = t.heroText;
+  document.querySelector(".hero .btn").textContent = t.create;
+  document.querySelector("#writer .panel h2").textContent = t.studio;
+  document.querySelector("#writer .panel .sub").textContent = t.studioSub;
+  document.querySelector('label[for="title"]').textContent = t.title;
+  document.querySelector('label[for="to"]').textContent = t.madeFor;
+  $("to").placeholder = t.madeForPlaceholder;
+  document.querySelector("#writer .panel label:not([for])").textContent = t.theme;
+  document.querySelector('label[for="poem"]').textContent = t.poem;
+  document.querySelectorAll(".themes .theme").forEach((b,i)=>{
+    const labels = lang === "mr" ? ["🦋 स्वप्नाळू","👑 राजेशाही","🌷 गोड","🌹 प्रेमळ","🌊 समुद्र","🌿 निसर्ग"] : ["🦋 Dreamy","👑 Luxury","🌷 Cute","🌹 Romantic","🌊 Ocean","🌿 Nature"];
+    b.textContent = labels[i];
+  });
+  document.querySelectorAll('label:not([for])')[1].textContent = t.color;
+  $("update").textContent = t.update; $("sample").textContent = t.sample;
+  document.querySelector("#writer .note").textContent = t.tip;
+  document.querySelector(".preview-wrap h2").textContent = t.design;
+  document.querySelector(".preview-wrap .sub").textContent = t.designSub;
+  $("download").textContent = t.download; $("copy").textContent = t.copy;
+  document.querySelector(".preview-wrap .note").textContent = t.downloadNote;
+  document.querySelector("section[style*='margin-top:30px'] h2").textContent = t.ideas;
+  document.querySelector("section[style*='margin-top:30px'] .sub").textContent = t.ideasSub;
+  const examples = document.querySelectorAll(".example");
+  [[t.friend,t.friendSub],[t.family,t.familySub],[t.birthday,t.birthdaySub]].forEach((pair,i)=>{
+    examples[i].querySelector("strong").textContent = pair[0];
+    examples[i].querySelector("span").textContent = pair[1];
+  });
+  $("collectionHeading").textContent = t.collection; $("collectionSub").textContent = t.collectionSub;
+  $("savedTitleLabel").textContent = t.savedTitle; $("savedLanguageLabel").textContent = t.savedLanguage;
+  $("savedPoemLabel").textContent = t.savedPoem; $("savedTitle").placeholder = lang === "mr" ? "उदा. माझी आई" : "e.g. A poem for my mother";
+  $("savedPoem").placeholder = lang === "mr" ? "इथे तुमची कविता लिहा..." : "Write your poem here...";
+  $("savePoem").textContent = t.save; $("exportPoems").textContent = t.export;
+  $("collectionNote").textContent = t.collectionNote;
+  document.querySelector("footer").innerHTML = "© <span id='year'>" + new Date().getFullYear() + "</span> KavyAura · " + t.footer;
+  $("langEnglish").classList.toggle("secondary", lang !== "en");
+  $("langMarathi").classList.toggle("secondary", lang !== "mr");
+  renderSavedPoems();
+}
+$("langEnglish").addEventListener("click",()=>setLanguage("en"));
+$("langMarathi").addEventListener("click",()=>setLanguage("mr"));
+
+const poemStorageKey = "kavyaura_saved_poems_v1";
+function readSavedPoems() {
+  try { return JSON.parse(localStorage.getItem(poemStorageKey) || "[]"); }
+  catch(e) { return []; }
+}
+function renderSavedPoems() {
+  const list = $("savedPoemList"), t = translations[uiLanguage], poems = readSavedPoems();
+  list.innerHTML = "";
+  if (!poems.length) {
+    const empty = document.createElement("p"); empty.className = "note"; empty.textContent = t.empty; list.appendChild(empty); return;
+  }
+  poems.forEach((item,index)=>{
+    const card = document.createElement("div"); card.className = "saved-item";
+    const heading = document.createElement("h3"); heading.textContent = item.title + " · " + (item.language === "mr" ? "मराठी" : "English");
+    const body = document.createElement("p"); body.textContent = item.poem;
+    const actions = document.createElement("div"); actions.className = "saved-actions";
+    const use = document.createElement("button"); use.type="button"; use.textContent=t.use;
+    use.addEventListener("click",()=>{$("title").value=item.title;$("poem").value=item.poem;$("writer").scrollIntoView({behavior:"smooth"});render();});
+    const del = document.createElement("button"); del.type="button"; del.textContent=t.remove;
+    del.addEventListener("click",()=>{if(confirm(t.deleted)){const current=readSavedPoems();current.splice(index,1);localStorage.setItem(poemStorageKey,JSON.stringify(current));renderSavedPoems();}});
+    actions.append(use,del);card.append(heading,body,actions);list.appendChild(card);
+  });
+}
+$("savePoem").addEventListener("click",()=>{
+  const title=$("savedTitle").value.trim(),poem=$("savedPoem").value.trim();
+  if(!title||!poem){alert(translations[uiLanguage].need);return;}
+  const items=readSavedPoems();items.unshift({title,poem,language:$("savedLanguage").value,createdAt:new Date().toISOString()});
+  try {localStorage.setItem(poemStorageKey,JSON.stringify(items));$("savedTitle").value="";$("savedPoem").value="";renderSavedPoems();alert(translations[uiLanguage].saved);}
+  catch(e){alert("Browser storage is full. Download or remove some saved poems and try again.");}
+});
+$("exportPoems").addEventListener("click",()=>{
+  const items=readSavedPoems();if(!items.length){alert(translations[uiLanguage].exportEmpty);return;}
+  const blob=new Blob([JSON.stringify(items,null,2)],{type:"application/json;charset=utf-8"});
+  const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="KavyAura-poem-collection.json";a.click();URL.revokeObjectURL(url);
+});
+
+
+// Ready-to-use original poem collection. Selecting a poem loads it into the design studio.
+const readyPoems = [
+ {lang:'mr',emoji:'🌼',title:'माझी आई',to:'आई',poem:'तुझ्या मायेची ऊब निराळी,\nतुझ्या शब्दांत ताकद सगळी.\nतुझ्या हसण्यात माझे आभाळ,\nआई, तूच माझे सुख-समाधान.'},
+ {lang:'mr',emoji:'🤝',title:'मैत्रीची गोडी',to:'माझ्या मैत्रिणीसाठी',poem:'हसण्यातली साथ, दुःखातला हात,\nमैत्रीने उजळतो जीवनाचा वाट.\nआठवणींची फुले मनात फुलतात,\nखरे मित्र नेहमी हृदयात राहतात.'},
+ {lang:'mr',emoji:'🌧️',title:'पावसाची चाहूल',to:'निसर्गप्रेमी मनासाठी',poem:'रिमझिम थेंबांची सुंदर सर,\nमातीचा सुगंध दरवळे भरभर.\nढगांच्या तालावर नाचे धरती,\nपावसात खुलते मनाची प्रीती.'},
+ {lang:'mr',emoji:'🌅',title:'नवी पहाट',to:'स्वतःसाठी',poem:'नवी पहाट नवे आभाळ,\nस्वप्नांना देऊ उंच भरारी विशाल.\nकालचे दुःख मागे ठेवूया,\nआज नव्याने हसूया, फुलूया.'},
+ {lang:'mr',emoji:'🎂',title:'वाढदिवसाचे रंग',to:'वाढदिवसाच्या शुभेच्छा',poem:'आनंदाचे रंग तुझ्या जीवनात भरू दे,\nप्रत्येक स्वप्नाला नवे पंख मिळू दे.\nहास्य, प्रेम आणि यशाची साथ,\nसुंदर होवो तुझ्या उद्याची वाट.'},
+ {lang:'mr',emoji:'🌿',title:'माझी धरती',to:'निसर्गासाठी',poem:'हिरवी पाने, निळे आभाळ,\nनिसर्ग देतो आनंद अपार.\nझाडे लावू, धरती जपू,\nसुंदर उद्यासाठी हातभार लावू.'},
+ {lang:'en',emoji:'💛',title:'A Little Light',to:'Someone special',poem:'A little kindness, softly shown,\nCan make a heart feel less alone.\nOne gentle word, one smile so bright,\nCan turn an ordinary day to light.'},
+ {lang:'en',emoji:'🌷',title:'For My Mother',to:'Mom',poem:'Your love is warmth on rainy days,\nA steady light in countless ways.\nIn every hug, in all you do,\nThe world feels kinder because of you.'},
+ {lang:'en',emoji:'💙',title:'A Friend Like You',to:'My best friend',poem:'Through every laugh and every mile,\nYou make hard days a little smile.\nThe memories we make shine through,\nLife feels brighter with a friend like you.'},
+ {lang:'en',emoji:'🌈',title:'New Beginnings',to:'A new chapter',poem:'The morning brings a sky of blue,\nA thousand things we still can do.\nTake one small step, let courage grow,\nAnd trust the seeds you choose to sow.'},
+ {lang:'en',emoji:'🎂',title:'Birthday Wishes',to:'Birthday star',poem:'May happy moments fill your day,\nMay laughter always find its way.\nMay dreams bloom bright and hopes take flight,\nAnd every year bring new delight.'},
+ {lang:'en',emoji:'🌊',title:'The Quiet Sea',to:'A peaceful heart',poem:'The ocean hums a gentle tune,\nSilver waves beneath the moon.\nI breathe in calm, let worries cease,\nAnd find my thoughts a little peace.'}
+];
+function renderPoemLibrary(filter='all'){
+ const grid=$('poemGrid'); if(!grid)return; grid.innerHTML='';
+ readyPoems.filter(p=>filter==='all'||p.lang===filter).forEach((p)=>{
+  const card=document.createElement('article');card.className='poem-choice';
+  const emoji=document.createElement('div');emoji.className='poem-emoji';emoji.textContent=p.emoji;
+  const lang=document.createElement('div');lang.className='poem-language';lang.textContent=p.lang==='mr'?'मराठी कविता':'English poem';
+  const heading=document.createElement('h3');heading.textContent=p.title;
+  const body=document.createElement('p');body.textContent=p.poem;
+  const button=document.createElement('button');button.type='button';button.textContent=p.lang==='mr'?'ही कविता डिझाइन करा ✨':'Design this poem ✨';
+  button.addEventListener('click',()=>{
+   $('title').value=p.title;$('to').value=p.to;$('poem').value=p.poem;
+   currentTheme='dreamy';currentColor=null;
+   document.querySelectorAll('.theme').forEach(b=>b.classList.toggle('active',b.dataset.theme==='dreamy'));
+   render();$('writer').scrollIntoView({behavior:'smooth'});
+  });
+  card.append(emoji,lang,heading,body,button);grid.appendChild(card);
+ });
+}
+document.querySelectorAll('.filter-btn').forEach(b=>b.addEventListener('click',()=>{
+ document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));
+ b.classList.add('active');renderPoemLibrary(b.dataset.filter);
+}));
+renderPoemLibrary();
+
+setLanguage('en');
+
+// Instagram in-app browser helper: offer Chrome and a copy-link fallback.
+(function(){
+ const chromeLink=document.getElementById('igOpenChrome');
+ if(chromeLink) chromeLink.href='intent://'+window.location.host+window.location.pathname+window.location.search+window.location.hash+'#Intent;scheme=https;package=com.android.chrome;end';
+ const ua=navigator.userAgent||'';
+ const fromInstagram=/Instagram/i.test(ua);
+ const box=document.getElementById('instagramNotice');
+ if(!box) return;
+ if(fromInstagram){box.style.display='block';}
+ const mr=()=>document.documentElement.lang==='mr' || (typeof uiLanguage!=='undefined' && uiLanguage==='mr');
+ const copyBtn=document.getElementById('igCopyLink');
+ copyBtn.addEventListener('click',async function(){
+  const link=window.location.href;
+  try{
+   if(navigator.clipboard && window.isSecureContext){await navigator.clipboard.writeText(link);}
+   else {const field=document.createElement('textarea');field.value=link;field.style.position='fixed';field.style.opacity='0';document.body.appendChild(field);field.select();const ok=document.execCommand('copy');field.remove();if(!ok) throw new Error('copy unavailable');}
+   copyBtn.textContent=mr()?'लिंक कॉपी झाली ✓':'Link copied ✓';
+  }catch(e){
+   window.prompt(mr()?'ही लिंक कॉपी करा आणि Chrome मध्ये पेस्ट करा:':'Copy this link and paste it in Chrome:',link);
+  }
+ });
+})();
+
+</script>
+</body></html>
